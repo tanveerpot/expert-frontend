@@ -52,17 +52,18 @@ const Login: React.FC = () => {
           <h1 className="text-center text-black text-xl p-9">Login</h1>
           <div className="w-[50%] mx-[25%] py-[3%]">
             <Input
+              className="placeholder-black-500 border-1"
               onChange={handelemail}
               value={email}
-              className="border-1"
               placeholder="Enter Email"
             />
           </div>
           <div className="w-[50%] mx-[25%] py-[1%]">
             <Input
+              className="placeholder-black-500"
               onChange={handelpassword}
               value={password}
-              placeholder="Enter Password"
+              placeholder="Enter Password 123456"
             />
           </div>
           <div className="w-[50%] mx-[25%] py-[1%]">
