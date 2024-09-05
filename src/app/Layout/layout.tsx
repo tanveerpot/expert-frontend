@@ -20,9 +20,6 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
   const [customer, setCustomer] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  // const router = useRouter();
-  // const [role, setRole] = useState("");
-  // const [role, setRole] = useState("dealer"); // Set initial role here or fetch from an auth system
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -33,7 +30,6 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
   };
 
   const handleSubmit = async () => {
-    console.log("Input Value:", name, email);
     const dealerEmail = localStorage.getItem("Email");
     const postData = {
       name: name,
@@ -43,18 +39,15 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
 
     try {
       if (role === "admin") {
-        // Admin endpoint
         const response = await axios.post(
           "http://localhost:5000/api/dealer",
           postData
         );
-        console.log("Success:", response.data);
       } else if (role === "dealer") {
         const response = await axios.post(
           "http://localhost:5000/api/customer",
           postData
         );
-        console.log("Success:", response.data);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -65,7 +58,6 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
     setEmail("");
   };
   const addUser = () => {
-    console.log("Add User");
     setShowUsers(false);
     setAddUsers(true);
   };
@@ -83,14 +75,12 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
   };
   async function userdelete(dealerEmail) {
     const data = { email: dealerEmail };
-    console.log("Data: ", data);
     if (role === "admin") {
       try {
         const response = await axios.delete(
           "http://localhost:5000/api/dealer/delete",
           { data }
         );
-        console.log("Success:", response.data);
       } catch (error) {
         console.error("Error deleting dealer:", error);
       }
@@ -100,7 +90,6 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
           "http://localhost:5000/api/customer/delete",
           { data }
         );
-        console.log("Success:", response.data);
       } catch (error) {
         console.error("Error deleting customer:", error);
       }
@@ -109,7 +98,6 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
   function deleteUser(event) {
     event.preventDefault();
     const dealerEmail = event.target.id;
-    console.log(dealerEmail);
     userdelete(dealerEmail);
 
     setIsDelete(true);
@@ -121,7 +109,6 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
         <div key={index}>
           <p className="inline">{customer.name}</p>
           <Button>Subscriptions</Button>
-          {/* <Button>Edit</Button> */}
           <button
             className="border border-gray rounded-md py-1 px-5 mx-3"
             id={customer.email}
@@ -154,29 +141,14 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
     const fetchData = async () => {
       try {
         if (role === "admin") {
-          // Admin endpoint
           const response = await axios.get("http://localhost:5000/api/dealer");
-          console.log("Success:", response);
-
-          setData(response.data);
         } else if (role === "dealer") {
-          // Dealer endpoint
           const dealerEmail = localStorage.getItem("Email");
-          // console.log("dealer: ", dealer);
           const dealer = { dealer: dealerEmail };
           const response = await axios.post(
             "http://localhost:5000/api/customer/specific",
             dealer
           );
-          // const response = await axios.get(
-          //   "http://localhost:5000/api/customer/specific",
-          //   dealer
-          // );
-          // const response = await axios.post(
-          //   "http://localhost:5000/api/customer/specific",
-          //   dealer
-          // );
-          console.log("Success:", response);
 
           setData(response.data);
         }
@@ -193,20 +165,17 @@ const LayOut: React.FC<LayOutProps> = ({ role }) => {
       newName: name,
       email: email,
     };
-    console.log("PostData", postData);
     try {
       if (role === "admin") {
         const response = await axios.put(
           "http://localhost:5000/api/dealer/update",
           postData
         );
-        console.log("Success:", response.data);
       } else if (role === "dealer") {
         const response = await axios.put(
           "http://localhost:5000/api/customer/update",
           postData
         );
-        console.log("Success:", response.data);
       }
 
       setIsEdit(false);

@@ -26,11 +26,9 @@ const Login: React.FC = () => {
     setEmail(e.target.value);
   };
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
     setRole(value);
   };
   const login = async () => {
-    console.log(email, password, role);
     const postData = {
       email: email,
       password: password,
@@ -41,7 +39,6 @@ const Login: React.FC = () => {
       "http://localhost:5000/api/login",
       postData
     );
-    console.log("Success:", response.data);
     if (response.data.message == "User signed in successfully") {
       localStorage.setItem("Email", email);
       setShowlayout(true);
