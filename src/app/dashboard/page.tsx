@@ -9,7 +9,7 @@ interface LayOutProps {
 }
 
 const LayOut: React.FC<LayOutProps> = () => {
-  const baseURL = "baseURL";
+  const baseURL = "http://localhost:5000/api";
   const [collapsed, setCollapsed] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
