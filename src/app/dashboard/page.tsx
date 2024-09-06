@@ -9,6 +9,7 @@ interface LayOutProps {
 }
 
 const LayOut: React.FC<LayOutProps> = () => {
+  const baseURL = "baseURL";
   const [collapsed, setCollapsed] = useState(false);
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,10 +32,7 @@ const LayOut: React.FC<LayOutProps> = () => {
     }
     const data = { email: user };
     const getUser = async () => {
-      const response = await axios.post(
-        "http://localhost:5000/api/login/user",
-        data
-      );
+      const response = await axios.post(`${baseURL}/login/user`, data);
       setUseruserRole(response.data.role);
       setUserEmail(response.data.email);
     };
@@ -50,7 +48,7 @@ const LayOut: React.FC<LayOutProps> = () => {
     const fetchData = async () => {
       try {
         if (userRole === "admin") {
-          const response = await axios.get("http://localhost:5000/api/dealer", {
+          const response = await axios.get(`${baseURL}/dealer`, {
             headers: {
               email: userEmail,
             },
@@ -59,14 +57,11 @@ const LayOut: React.FC<LayOutProps> = () => {
         } else if (userRole === "dealer") {
           const dealer = { dealer: userEmail };
 
-          const response = await axios.get(
-            "http://localhost:5000/api/customer",
-            {
-              headers: {
-                email: userEmail,
-              },
-            }
-          );
+          const response = await axios.get(`${baseURL}/customer`, {
+            headers: {
+              email: userEmail,
+            },
+          });
 
           setData(response.data);
         }
@@ -97,25 +92,17 @@ const LayOut: React.FC<LayOutProps> = () => {
     };
     try {
       if (userRole === "admin") {
-        const response = await axios.post(
-          "http://localhost:5000/api/dealer",
-          postData,
-          {
-            headers: {
-              email: userEmail,
-            },
-          }
-        );
+        const response = await axios.post(`${baseURL}/dealer`, postData, {
+          headers: {
+            email: userEmail,
+          },
+        });
       } else if (userRole === "dealer") {
-        const response = await axios.post(
-          "http://localhost:5000/api/customer",
-          postData,
-          {
-            headers: {
-              email: userEmail,
-            },
-          }
-        );
+        const response = await axios.post(`${baseURL}/customer`, postData, {
+          headers: {
+            email: userEmail,
+          },
+        });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -148,15 +135,12 @@ const LayOut: React.FC<LayOutProps> = () => {
     const data = { email: useridentity };
     if (userRole === "admin") {
       try {
-        const response = await axios.delete(
-          "http://localhost:5000/api/dealer/delete",
-          {
-            data,
-            headers: {
-              email: userEmail,
-            },
-          }
-        );
+        const response = await axios.delete(`${baseURL}/dealer/delete`, {
+          data,
+          headers: {
+            email: userEmail,
+          },
+        });
         if (response.data.message === "Deleted dealer") {
           setIsDelete(true);
           setLoading(true);
@@ -166,15 +150,12 @@ const LayOut: React.FC<LayOutProps> = () => {
       }
     } else if (userRole === "dealer") {
       try {
-        const response = await axios.delete(
-          "http://localhost:5000/api/customer/delete",
-          {
-            data,
-            headers: {
-              email: userEmail,
-            },
-          }
-        );
+        const response = await axios.delete(`${baseURL}/customer/delete`, {
+          data,
+          headers: {
+            email: userEmail,
+          },
+        });
       } catch (error) {
         console.error("Error in deleting:", error);
       }
@@ -225,18 +206,14 @@ const LayOut: React.FC<LayOutProps> = () => {
     };
     try {
       if (userRole === "admin") {
-        const response = await axios.put(
-          "http://localhost:5000/api/dealer/update",
-          postData,
-          {
-            headers: {
-              email: userEmail,
-            },
-          }
-        );
+        const response = await axios.put(`${baseURL}/dealer/update`, postData, {
+          headers: {
+            email: userEmail,
+          },
+        });
       } else if (userRole === "dealer") {
         const response = await axios.put(
-          "http://localhost:5000/api/customer/update",
+          `${baseURL}/customer/update`,
           postData,
           {
             headers: {
